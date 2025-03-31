@@ -11,7 +11,6 @@ import re
 import random
 import psutil
 import time
-import sesh
 import tasks
 import aiohttp
 import base64
@@ -2427,44 +2426,6 @@ async def stop_rotate_emoji(ctx):
     emoji_rotation_active = False
     await ctx.send("```Emoji rotation stopped.```", delete_after=3)
 
-@bot.command()
-async def setname(ctx, *, name: str = None):
-    if not name:
-        await ctx.send("```Please provide a name to set```")
-        return
-
-    headers = {
-            "authority": "discord.com",
-            "method": "PATCH",
-            "scheme": "https",
-            "accept": "/",
-            "accept-encoding": "gzip, deflate, br",
-            "accept-language": "en-US",
-            "authorization": bot.http.token,
-            "origin": "https://discord.com/",
-            "sec-ch-ua": '"Not/A)Brand";v="99", "Brave";v="115", "Chromium";v="115"',
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) discord/1.0.9020 Chrome/108.0.5359.215 Electron/22.3.26 Safari/537.36",
-            "sec-ch-ua-mobile": "?0",
-            "sec-ch-ua-platform": '"Windows"',
-            "sec-fetch-dest": "empty",
-            "sec-fetch-mode": "cors",
-            "sec-fetch-site": "same-origin",
-            "X-Debug-Options": "bugReporterEnabled",
-            "X-Discord-Locale": "en-US",
-            "X-Discord-Timezone": "Asia/Calcutta",
-            "X-Super-Properties": "eyJvcyI6IldpbmRvd3MiLCJicm93c2VyIjoiRGlzY29yZCBDbGllbnQiLCJyZWxlYXNlX2NoYW5uZWwiOiJzdGFibGUiLCJjbGllbnRfdmVyc2lvbiI6IjEuMC45MDIwIiwib3NfdmVyc2lvbiI6IjEwLjAuMTkwNDUiLCJvc19hcmNoIjoieDY0IiwiYXBwX2FyY2giOiJpYTMyIiwic3lzdGVtX2xvY2FsZSI6ImVuLVVTIiwiYnJvd3Nlcl91c2VyX2FnZW50IjoiTW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV09XNjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIGRpc2NvcmQvMS4wLjkwMjAgQ2hyb21lLzEwOC4wLjUzNTkuMjE1IEVsZWN0cm9uLzIyLjMuMjYgU2FmYXJpLzUzNy4zNiIsImJyb3dzZXJfdmVyc2lvbiI6IjIyLjMuMjYiLCJjbGllbnRfYnVpbGRfbnVtYmVyIjoyNDAyMzcsIm5hdGl2ZV9idWlsZF9udW1iZXIiOjM4NTE3LCJjbGllbnRfZXZlbnRfc291cmNlIjpudWxsLCJkZXNpZ25faWQiOjB9"
-        }
-
-    payload = {
-        "global_name": name
-    }
-
-    response = sesh.patch("https://discord.com/api/v9/users/@me", json=payload, headers=headers)
-    
-    if response.status_code == 200:
-        await ctx.send(f"```Successfully set global name to: {name}```")
-    else:
-        await ctx.send(f"```Failed to update global name: {response.status_code}```")
 
 def loads_tokens(file_path='token.txt'):
     with open(file_path, 'r') as file:
@@ -3686,51 +3647,6 @@ async def hypesquad(ctx, house: str):
                 error_message = await response.text()
                 await ctx.send(f"```Failed to change HypeSquad house: {response.status} - {error_message}```")
 
-@bot.command()
-async def setsbio(ctx, *, bio: str):
-    headers = {
-        "authority": "discord.com",
-        "accept": "*/*",
-        "accept-language": "en-US",
-        "authorization": bot.http.token,
-        "content-type": "application/json",
-        "origin": "https://discord.com",
-        "referer": "https://discord.com/channels/@me"
-    }
-
-    payload = {
-        "bio": bio
-    }
-
-    response = sesh.patch(f"https://discord.com/api/v9/guilds/{ctx.guild.id}/members/@me", json=payload, headers=headers)
-    
-    if response.status_code == 200:
-        await ctx.send("```Successfully set server bio```")
-    else:
-        await ctx.send(f"```Failed to update server bio: {response.status_code}```")
-
-@bot.command()
-async def setspronoun(ctx, *, pronouns: str):
-    headers = {
-        "authority": "discord.com",
-        "accept": "*/*",
-        "accept-language": "en-US",
-        "authorization": bot.http.token,
-        "content-type": "application/json",
-        "origin": "https://discord.com",
-        "referer": "https://discord.com/channels/@me"
-    }
-
-    payload = {
-        "pronouns": pronouns
-    }
-
-    response = sesh.patch(f"https://discord.com/api/v9/guilds/{ctx.guild.id}/members/@me", json=payload, headers=headers)
-    
-    if response.status_code == 200:
-        await ctx.send("```Successfully set server pronouns```")
-    else:
-        await ctx.send(f"```Failed to update server pronouns: {response.status_code}```")
 
 @bot.command()
 async def serverinfo(ctx):
